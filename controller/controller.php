@@ -1,8 +1,10 @@
 <?php 
 include(__DIR__."/../model/model.php");
-define('HTTP_SERVER','http://localhost/175894ad-d364-4daf-a8cd-8d9abb1956ae/controller/controller.php');
+define('HTTP_SERVER','http://localhost/~erick/pass/controller/controller.php');
 class Controller{
     public function index($dados,$queries){
+        session_start();
+        if($_SESSION['idSession'] == $_COOKIE['PHPSESSID']){
         if(isset($dados['funcao'])){
             $this->seta($dados);
         }else if(isset($queries['id']) && !isset($queries['op']) && !isset($dados['op'])){
@@ -27,6 +29,9 @@ class Controller{
         }else{
             $this->show();
         }
+    }else{
+        header('Location: http://localhost/~erick/pass/controller/login.php');
+    }
     }
     private function seta($dados){
         if($dados['funcao'] == "01"){
